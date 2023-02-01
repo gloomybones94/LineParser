@@ -19,7 +19,7 @@ namespace LineParser
            reportPath = _reportPath;
            reportDate = _reportDate;
            reportName = _reportName;
-            unitPrice = _unitPrice;
+           unitPrice = _unitPrice;
         }
     }
 }

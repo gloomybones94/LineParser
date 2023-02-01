@@ -122,8 +122,6 @@ namespace LineParser
 			grid.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
 			conn.Close();
-
-            // fix column widths
         }
 
 		public static void Cleanup()
@@ -327,9 +325,8 @@ namespace LineParser
                 conn.Close();
                 return true;
             }
-            catch (Exception e)
+            catch
             {
-                MessageBox.Show(e.ToString());
                 conn.Close();
                 return false;
             }
@@ -347,6 +344,7 @@ namespace LineParser
 			}
 			catch (SqlException)
 			{
+				conn.Close();
 				return false;
 			}
 		}

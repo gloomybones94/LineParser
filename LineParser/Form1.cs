@@ -18,12 +18,13 @@ namespace LineParser
         private void Form1_Load(object sender, EventArgs e)
         {
             bool firstRun = Properties.Settings.Default.firstRun;
-            bool authType = Properties.Settings.Default.windowsAuth;
+            bool windowsAuth = Properties.Settings.Default.windowsAuth;
+            string? serverName = Properties.Settings.Default.serverName;
 
             if (firstRun == false) 
             {
-                serverNameInput.Text = Properties.Settings.Default.serverName;
-                Data.BuildConnectionString(Properties.Settings.Default.serverName, Properties.Settings.Default.windowsAuth);
+                serverNameInput.Text = serverName;
+                Data.BuildConnectionString(serverName, windowsAuth);
                 cleanDBButton.Enabled = true;
             }
             else
@@ -31,7 +32,7 @@ namespace LineParser
                 setupDBButton.Enabled= true;
             }
 
-            if (authType == true)
+            if (windowsAuth == true)
             {
                 windowsAuthButton.Checked = true;
             }
@@ -50,59 +51,39 @@ namespace LineParser
         private void goButton_Click(object sender, EventArgs e)
         {
             DateTime reportDate = reportDateInput.Value;
+
             string dateString = reportDate.ToShortDateString();
             string fileDate = reportDate.Year.ToString() + reportDate.Month.ToString().PadLeft(2, '0');
             string destinationDir = $@"{Path.GetDirectoryName(reportPath)}\{fileDate}\";
 
-            SplitOriginalFile(reportPath, destinationDir);
-            Form2 form2 = new(destinationDir, dateString, fileDate);
-            form2.ShowDialog();
-        }
-
-        private static void SplitOriginalFile(string? reportPath, string destinationDir)
-        {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-            // Create directory
-            Directory.CreateDirectory(destinationDir);
-
-            // Get raw report file
-            ExcelPackage excelFile = new(new FileInfo(reportPath));
-
-            // Break into individual sheets and save
-            foreach (var sheet in excelFile.Workbook.Worksheets)
+            
+            if (reportPath != null)
             {
-                string newFileName = sheet.Name.Replace(" ", "-").ToLower() + ".xlsx";
+                bool splitSucceeded = FileSplitter.SplitFile(reportPath, destinationDir);
 
-                ExcelPackage newFile = new(new FileInfo(destinationDir + newFileName));
-                newFile.Workbook.Worksheets.Add(sheet.Name);
-                var newSheet = newFile.Workbook.Worksheets[0];
-
-                int lastCell = sheet.Dimension.End.Row - 1;
-                var sourceRange = sheet.Cells["A1:I" + lastCell.ToString()];
-                sourceRange.Copy(newSheet.Cells["A1"]);
-
-                var format = new ExcelOutputTextFormat
+                if (splitSucceeded)
                 {
-                    TextQualifier = '"',
-                    Encoding = System.Text.Encoding.UTF8,
-                    EOL = "\r\n"
-                };
+                    Form2 form2 = new(destinationDir, dateString, fileDate);
+                    form2.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Unable to split file.","Error");
+                }
 
-                newSheet.Column(3).Style.Numberformat.Format = "@";
-                newSheet.DeleteColumn(10, 16374);
-
-                var file = new FileInfo(destinationDir + sheet.Name.Replace(" ", "-").ToLower() + ".csv");
-
-                newSheet.Cells["A1:I" + lastCell.ToString()].SaveToText(file, format);
             }
+            else
+            {
+                MessageBox.Show("No report selected.","Error");
+            }
+
         }
 
-        private string? GetReportPath()
+        private static string? GetReportPath()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            OpenFileDialog openFileDialog = new()
             {
-                Filter = "",
+                Filter = "Excel Worksheets|*.xlsx",
                 FilterIndex = 1,
                 Multiselect = false
 
@@ -123,7 +104,8 @@ namespace LineParser
         private void testConnectionButton_Click(object sender, EventArgs e)
         {
             bool connection = Data.TestConnection();
-            string message = "";
+            string message;
+
             if (connection)
             {
                 message = "Connected to database successfully!";
@@ -150,7 +132,7 @@ namespace LineParser
             }
             else
             {
-                MessageBox.Show("Unable to build database, seek help :(");
+                MessageBox.Show("Unable to build database, seek help :(","Database Build Unsuccessful");
             }
         }
 

@@ -57,6 +57,7 @@
             this.generateReportButton.Size = new System.Drawing.Size(154, 31);
             this.generateReportButton.TabIndex = 0;
             this.generateReportButton.Text = "Select Report File";
+            this.toolTip1.SetToolTip(this.generateReportButton, "Choose a report file to import");
             this.generateReportButton.UseVisualStyleBackColor = true;
             this.generateReportButton.Click += new System.EventHandler(this.generateReportButton_Click);
             // 
@@ -102,6 +103,7 @@
             this.setupDBButton.Size = new System.Drawing.Size(156, 32);
             this.setupDBButton.TabIndex = 5;
             this.setupDBButton.Text = "Build DB";
+            this.toolTip1.SetToolTip(this.setupDBButton, "Set up the database (first-time users)");
             this.setupDBButton.UseVisualStyleBackColor = true;
             this.setupDBButton.Click += new System.EventHandler(this.setupDBButton_Click);
             // 
@@ -112,6 +114,7 @@
             this.testConnectionButton.Size = new System.Drawing.Size(156, 32);
             this.testConnectionButton.TabIndex = 5;
             this.testConnectionButton.Text = "Test Connection";
+            this.toolTip1.SetToolTip(this.testConnectionButton, "Check your database connection");
             this.testConnectionButton.UseVisualStyleBackColor = true;
             this.testConnectionButton.Click += new System.EventHandler(this.testConnectionButton_Click);
             // 
@@ -186,6 +189,7 @@
             this.cleanDBButton.Size = new System.Drawing.Size(154, 31);
             this.cleanDBButton.TabIndex = 4;
             this.cleanDBButton.Text = "Clean DB";
+            this.toolTip1.SetToolTip(this.cleanDBButton, "Remove all data currently in the local database");
             this.cleanDBButton.UseVisualStyleBackColor = true;
             this.cleanDBButton.Click += new System.EventHandler(this.cleanDBButton_Click);
             // 
@@ -196,6 +200,7 @@
             this.exitButton.Size = new System.Drawing.Size(154, 32);
             this.exitButton.TabIndex = 3;
             this.exitButton.Text = "Exit";
+            this.toolTip1.SetToolTip(this.exitButton, "Close the application");
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
             // 
@@ -207,6 +212,7 @@
             this.goButton.Size = new System.Drawing.Size(154, 31);
             this.goButton.TabIndex = 0;
             this.goButton.Text = "Go";
+            this.toolTip1.SetToolTip(this.goButton, "Start report building process");
             this.goButton.UseVisualStyleBackColor = true;
             this.goButton.Click += new System.EventHandler(this.goButton_Click);
             // 

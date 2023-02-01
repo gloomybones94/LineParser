@@ -55,10 +55,13 @@ namespace LineParser
             {
                 foreach (DataGridViewRow row in rows)
                 {
-                    string? rowValue = row.Cells[1].Value.ToString();
-                    if (string.IsNullOrEmpty(rowValue))
+                    if (row.Cells[1].Value == null)
                     {
                         return;
+                    }
+                    else
+                    {
+                        string? rowValue = row.Cells[1].Value.ToString();
                     }
                 }
 
@@ -66,36 +69,39 @@ namespace LineParser
             }
         }
 
-        private void buildReportButton_Click(object sender, EventArgs e)
+        private static bool ValidateUnitPrices(DataGridView grid)
         {
-            bool validUnitPrices = false;
-
-            foreach (DataGridViewRow row in subReportView.Rows)
+            foreach (DataGridViewRow row in grid.Rows)
             {
                 if (!double.TryParse(row.Cells[1].Value.ToString(), out double n))
                 {
-                    MessageBox.Show($"{row.Cells[0].Value} has an invalid unit price.","Invalid Unit Price");
-                    validUnitPrices = false;
-                    break;
-                }
-                else
-                {
-                    validUnitPrices = true;
+                    MessageBox.Show($"{row.Cells[0].Value} has an invalid unit price.", "Invalid Unit Price");
+                    return false;
                 }
             }
 
+            return true;
+        }
+
+        private void buildReportButton_Click(object sender, EventArgs e)
+        {
+            bool validUnitPrices = ValidateUnitPrices(subReportView);
+
             if (validUnitPrices)
             {
-                LoadReports(directory, dateString);
-                string fileName = $@"{directory}\line-music-{fileDate}.txt";
-                Data.BuildReport(fileName);
-                Data.FillFileTotals(fileTotalView);
-                Data.Cleanup();
+                Cursor.Current = Cursors.WaitCursor;
+                bool success = LoadReports(directory, dateString);
+                Cursor.Current = Cursors.Default;
+
+                if (!success)
+                {
+                    MessageBox.Show("Something when wrong during the report build. Please check your files and try again", "Error");
+                }
             }
 
         }
 
-        private void LoadReports(string reportDirectory, string reportDate)
+        private bool LoadReports(string reportDirectory, string reportDate)
         {
 
             DataGridViewRowCollection rows = subReportView.Rows;
@@ -106,18 +112,41 @@ namespace LineParser
 
                 foreach (DataGridViewRow row in rows)
                 {
-                    string? reportName = row.Cells[0].Value.ToString();
-                    decimal unitPrice = Convert.ToDecimal(row.Cells[1].Value);
-                    string? reportPath = row.Cells[2].Value.ToString();
-                    Royalty_Report report = new(reportPath, reportDate, reportName, unitPrice);
-                    reportFiles.Add(report);
+                    if (row.Cells[0].Value != null && row.Cells[2].Value != null)
+                    {
+                        string reportName = row.Cells[0].Value.ToString();
+                        decimal unitPrice = Convert.ToDecimal(row.Cells[1].Value);
+                        string reportPath = row.Cells[2].Value.ToString();
+                        Royalty_Report report = new(reportPath, reportDate, reportName, unitPrice);
+                        reportFiles.Add(report);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Missing report information, please double-check that all fields are filled in.", "Error");
+                        return false ;
+                    }
                 }
 
-                Data.LoadReportFiles(reportFiles, reportDirectory);
+                try
+                {
+                    Data.LoadReportFiles(reportFiles, reportDirectory);
+                    string fileName = $@"{directory}\line-music-{fileDate}.txt";
+                    Data.BuildReport(fileName);
+                    Data.FillFileTotals(fileTotalView);
+                    Data.Cleanup();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+
+
             }
             else
             {
                 MessageBox.Show("There are no files to load...");
+                return false;
             }
         }
 
@@ -132,18 +161,37 @@ namespace LineParser
 
                 if (dir != null)
                 {
+                    bool couldNotDelete = false;
                     foreach (FileInfo file in dir.GetFiles())
                     {
-                        file.Delete();
+                        try
+                        {
+                            file.Delete();
+                        }
+                        catch
+                        {
+                            string fileName = file.Name;
+                            MessageBox.Show($"Unable to delete {fileName}. Do you have it open?", "Cannot Delete File");
+                            couldNotDelete = true;
+                        }
+                        
                     }
 
-                    dir.Delete();
-                    this.Close();
+                    if (!couldNotDelete)
+                    {
+                        dir.Delete();
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Could not delete directory {dir.Name} because it is not empty. Please delete it manually.");
+                    }
+
+                    Close();
                 }
             }
             else if (res == DialogResult.No)
             {
-                this.Close();
+                Close();
             }
         }
     }
