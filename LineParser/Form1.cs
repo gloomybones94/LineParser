@@ -35,7 +35,7 @@ namespace LineParser
                 setupDBButton.Enabled= true;
             }
 
-            // for now, this will always be true as I haven't written anything to handle password server creds
+            // for now, this will always be true as I haven't written anything to handle a pw authenticated server
             if (windowsAuth == true)
             {
                 windowsAuthButton.Checked = true;

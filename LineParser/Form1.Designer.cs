@@ -59,6 +59,7 @@
             this.selectReportButton.Text = "Select Report File";
             this.toolTip1.SetToolTip(this.selectReportButton, "Choose a report file to import");
             this.selectReportButton.UseVisualStyleBackColor = true;
+            this.selectReportButton.Click += new System.EventHandler(this.selectReportButton_Click);
             // 
             // reportDateInput
             // 
