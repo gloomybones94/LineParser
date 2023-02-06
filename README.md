@@ -35,4 +35,4 @@ for each of the service/subscription tiers.
 
 After all unit prices have been entered, click 'Build Report' to create the final import file. This will also populate the
 lower data grid with information about each of the sub-reports. Use this to audit the output against the expected result.
-**The output file will be in a folder named as yyyymm for the report date (ex. 202211 for November 2022)**
+**The output file will be in a folder named as yyyymm (ex. 202211 for November 2022) in the same directory as the raw report file**
