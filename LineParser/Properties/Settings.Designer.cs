@@ -25,7 +25,7 @@ namespace LineParser.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("GCYPLL3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string serverName {
             get {
                 return ((string)(this["serverName"]));
@@ -49,7 +49,7 @@ namespace LineParser.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool firstRun {
             get {
                 return ((bool)(this["firstRun"]));

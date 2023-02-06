@@ -158,7 +158,6 @@ namespace LineParser
         private void testConnectionButton_Click(object sender, EventArgs e)
         {
             bool connection = Data.TestConnection();
-            string message;
 
             if (connection)
             {
