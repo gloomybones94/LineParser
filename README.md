@@ -28,9 +28,11 @@ to make sure that you're all hooked up. *You'll only need to do this once.*
 
 Select the date for the reporting period, then use the 'Select Report File' button to choose your raw report file.
 *The program's output files will be in the directory that this file is in, so make sure it's easy to access!*
+
 Once a file's been selected, the 'Go' button will be enabled. Click this, and the parser will take a few seconds to
 split the raw report file into a CSV for each worksheet. Then, the second form will open. Here, enter the unit prices
 for each of the service/subscription tiers. 
+
 After all unit prices have been entered, click 'Build Report' to create the final import file. This will also populate the
 lower data grid with information about each of the sub-reports. Use this to audit the output against the expected result.
 **The output file will be in a folder named as yyyymm for the report date (ex. 202211 for November 2022)**
