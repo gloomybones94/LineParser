@@ -28,7 +28,6 @@ namespace LineParser
         private void Form2_Load(object sender, EventArgs e)
         {
             LoadReportUI(directory, dateString, subReportView);
-
         }
 
         private static void LoadReportUI(string directory, string reportDate, DataGridView grid)
@@ -95,7 +94,7 @@ namespace LineParser
 
                 if (!success)
                 {
-                    MessageBox.Show("Something when wrong during the report build. Please check your files and try again", "Error");
+                    MessageBox.Show("Something went wrong during the report build. Please check your files and try again", "Error");
                 }
             }
 
@@ -179,7 +178,14 @@ namespace LineParser
 
                     if (!couldNotDelete)
                     {
-                        dir.Delete();
+                        try
+                        {
+                            dir.Delete();
+                        }
+                        catch
+                        {
+                            MessageBox.Show($"Could not delete directory {dir.Name}. Please delete it manually.");
+                        }
                     }
                     else
                     {

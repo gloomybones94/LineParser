@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.generateReportButton = new System.Windows.Forms.Button();
+            this.selectReportButton = new System.Windows.Forms.Button();
             this.reportDateInput = new System.Windows.Forms.DateTimePicker();
             this.reportDateLabel = new System.Windows.Forms.Label();
             this.userConfigGroup = new System.Windows.Forms.GroupBox();
@@ -50,16 +50,16 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // generateReportButton
+            // selectReportButton
             // 
-            this.generateReportButton.Location = new System.Drawing.Point(6, 127);
-            this.generateReportButton.Name = "generateReportButton";
-            this.generateReportButton.Size = new System.Drawing.Size(154, 31);
-            this.generateReportButton.TabIndex = 0;
-            this.generateReportButton.Text = "Select Report File";
-            this.toolTip1.SetToolTip(this.generateReportButton, "Choose a report file to import");
-            this.generateReportButton.UseVisualStyleBackColor = true;
-            this.generateReportButton.Click += new System.EventHandler(this.generateReportButton_Click);
+            this.selectReportButton.Location = new System.Drawing.Point(6, 127);
+            this.selectReportButton.Name = "selectReportButton";
+            this.selectReportButton.Size = new System.Drawing.Size(154, 31);
+            this.selectReportButton.TabIndex = 0;
+            this.selectReportButton.Text = "Select Report File";
+            this.toolTip1.SetToolTip(this.selectReportButton, "Choose a report file to import");
+            this.selectReportButton.UseVisualStyleBackColor = true;
+            this.selectReportButton.Click += new System.EventHandler(this.generateReportButton_Click);
             // 
             // reportDateInput
             // 
@@ -172,7 +172,7 @@
             this.groupBox1.Controls.Add(this.cleanDBButton);
             this.groupBox1.Controls.Add(this.exitButton);
             this.groupBox1.Controls.Add(this.goButton);
-            this.groupBox1.Controls.Add(this.generateReportButton);
+            this.groupBox1.Controls.Add(this.selectReportButton);
             this.groupBox1.Controls.Add(this.reportDateInput);
             this.groupBox1.Controls.Add(this.reportDateLabel);
             this.groupBox1.Location = new System.Drawing.Point(15, 12);
@@ -237,7 +237,7 @@
 
         #endregion
 
-        private Button generateReportButton;
+        private Button selectReportButton;
         private DateTimePicker reportDateInput;
         private Label reportDateLabel;
         private GroupBox userConfigGroup;

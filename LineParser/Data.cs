@@ -19,6 +19,8 @@ namespace LineParser
     {
         public static string? connectionString;
 
+		public static string? errorMessage;
+
         public static void LoadReportFiles(List<Royalty_Report> reports, string destinationDir)
         {
             //string connectionString = $"Data Source=GCYPLL3;Initial Catalog=Line_Music_Parser;Integrated Security=True";
@@ -325,8 +327,9 @@ namespace LineParser
                 conn.Close();
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+				errorMessage= e.Message;
                 conn.Close();
                 return false;
             }

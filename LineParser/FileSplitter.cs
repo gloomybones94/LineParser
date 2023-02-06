@@ -9,7 +9,9 @@ namespace LineParser
 {
     static class FileSplitter
     {
-        public static bool SplitFile(string reportPath, string destinationDir)
+        public static string? errorMessage;
+
+        public static bool SplitFile(string reportPath, string destinationDir, DateTime reportDate)
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -43,6 +45,19 @@ namespace LineParser
                         EOL = "\r\n"
                     };
 
+                    // if there's no data in the sheet, don't save it and move on to the next one
+                    if (newSheet.Dimension.End.Row == 1)
+                    {
+                        newSheet.Dispose();
+                        continue;
+                    }
+
+                    if (reportDate < DateTime.Parse("04/01/2017"))
+                    {
+                        newSheet.InsertColumn(2, 1);
+                        newSheet.InsertColumn(5, 1);
+                    }
+
                     newSheet.Column(3).Style.Numberformat.Format = "@";
                     newSheet.DeleteColumn(10, 16374);
 
@@ -53,8 +68,9 @@ namespace LineParser
                 return true;
 
             }
-            catch
+            catch (Exception e)
             {
+                errorMessage = e.Message;
                 return false;
             }
         }

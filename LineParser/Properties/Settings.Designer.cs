@@ -25,18 +25,6 @@ namespace LineParser.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool firstRun {
-            get {
-                return ((bool)(this["firstRun"]));
-            }
-            set {
-                this["firstRun"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("GCYPLL3")]
         public string serverName {
             get {
@@ -56,6 +44,18 @@ namespace LineParser.Properties {
             }
             set {
                 this["windowsAuth"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool firstRun {
+            get {
+                return ((bool)(this["firstRun"]));
+            }
+            set {
+                this["firstRun"] = value;
             }
         }
     }
